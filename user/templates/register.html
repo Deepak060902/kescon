@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container box-shadow w-50 p-4
+   my-5">
+  <!-- <div class="card"> -->
+  <h2 class="text-center">Register</h2>
+  <form method="POST" action='{% url "register" %}'>
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.username.label_tag }}
+      {{ form.username }}
+    </div>
+    <div class="row mt-3">
+      <div class="form-group col-md-6">
+        {{ form.first_name.label_tag }}
+        {{ form.first_name }}
+      </div>
+      <div class="form-group col-md-6">
+        {{ form.last_name.label_tag }}
+        {{ form.last_name }}
+      </div>
+    </div>
+    <div class="form-group mt-3">
+      {{ form.phone_number.label_tag }}
+      {{ form.phone_number }}
+    </div>
+    <div class="form-group mt-3">
+      {{ form.e_mail.label_tag }}
+      {{ form.e_mail }}
+    </div>
+
+    <div class="row mt-3">
+      <div class="form-group col-md-6">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+      </div>
+      <div class="form-group col-md-6">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+      </div>
+    </div>
+    <div class="form-group mt-3">
+      <label for="inputAddress">Address 1</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+    </div>
+    <div class="form-group mt-3">
+      <label for="inputAddress2">Address 2</label>
+      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+    </div>
+    <div class="row mt-3">
+      <div class="form-group col-md-4">
+        {{ form.city.label_tag }}
+        {{ form.city }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form.state.label_tag }}
+        {{ form.state }}
+      </div>
+      <div class="form-group col-md-4">
+        {{ form.postal_code.label_tag }}
+        {{ form.postal_code }}
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+      <button type="submit" class="register-btn w-100 text-center px-5 py-2">Sign in</button>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      <a href="{% url 'login' %}">Already have an account? Login</a>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

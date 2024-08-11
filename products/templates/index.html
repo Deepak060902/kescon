@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- header -->
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/main_banner.webp' %}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+</div>
+<!-- end of header -->
+
+<!-- collection -->
+<section id="collection" class="pt-5">
+  <div class="container">
+    <div class="title" style="text-align: center;">
+      <h2 class="position-relative d-inline-block">Our Collection</h2>
+    </div>
+    <div class="row g-0">
+      <div class="d-flex flex-wrap justify-content-center mt-5 filter-button-group">
+        {% for category, products in featured_products.items %}
+
+        <a href="{% url 'product_list_by_category' category.slug %}"><button type="button" class="btn m-2 text-dark" data-filter=".best">{{ category.name }}</button></a>
+        {% endfor %}
+        <!-- <a href=""><button type="button" class="btn m-2 text-dark" data-filter=".feat">Staionary</button></a>
+        <a href=""><button type="button" class="btn m-2 text-dark" data-filter=".new">Bussiness items</button></a> -->
+      </div>
+      <!-- <div class="collection-list mt-4 row gx-0 gy-3">
+        {% for product in collection_products %}
+        <div class="col-md-6 col-lg-4 col-xl-3 p-2 best" style=" box-shadow: 0 0 20px 0 #eee;">
+          <a href="">
+            <div class="collection-img position-relative">
+              <img src="{% static " images/highlighters.webp" %}" class="w-100"
+                style="height: 310px;     object-fit: contain;">
+              <span
+                class="position-absolute bg-primary text-white d-flex align-items-center justify-content-center">sale</span>
+            </div>
+            <div class="text-center">
+              <div class="rating mt-3">
+                <span class="text-primary"><i class="fas fa-star"></i></span>
+                <span class="text-primary"><i class="fas fa-star"></i></span>
+                <span class="text-primary"><i class="fas fa-star"></i></span>
+                <span class="text-primary"><i class="fas fa-star"></i></span>
+                <span class="text-primary"><i class="fas fa-star"></i></span>
+              </div>
+              <p class="text-capitalize my-1">{{product.name}}</p>
+              <span class="fw-bold">Rs. {{product.price}}</span>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div> -->
+    </div>
+  </div>
+</section>
+<!-- end of collection -->
+
+<!-- special products -->
+{% for category, products in featured_products.items %}
+<section id="special" class="pb-5">
+  <div class="container">
+    <div class="title py-5" style="text-align: center;">
+      <h2 class="position-relative d-inline-block">{{ category.name }} Selection</h2>
+    </div>
+    <div class="special-list row g-0">
+      {% for product in products %}
+      <div class="col-md-6 col-lg-4 col-xl-3 p-2" style=" box-shadow: 0 0 20px 0 #eee;">
+        <a href="{{product.slug}}">
+          <div class="special-img position-relative overflow-hidden">
+            <img src="{{ product.image.url }}" class="w-100" style="height: 310px;     object-fit: contain;">
+            <span class="position-absolute d-flex align-items-center justify-content-center text-primary fs-4">
+              <i class="fas fa-heart"></i>
+            </span>
+          </div>
+          <div class="text-center">
+            <p class="text-capitalize mt-3 mb-1">{{product.name}}</p>
+            <span class="fw-bold d-block">Rs. {{product.price}}</span>
+
+            <!-- {% if request.user.is_authenticated %}
+                        <a href = "" class = "btn btn-primary" style="width: max-content; align-self:center;">Add to Cart</a>
+                        {% else %}
+                        <a href = ""  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class = "btn btn-primary" style="width: max-content; align-self:center;">Add to Cart</a>
+               
+                         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                           <div class="modal-dialog">
+                             <div class="modal-content">
+                               <div class="modal-header">
+                                 <h5 class="modal-title" id="staticBackdropLabel">Login</h5>
+                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                               </div>
+                               <div class="modal-body">
+                                 You are not signed in.
+                               </div>
+                               <div class="modal-footer">
+                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                 <a href="">
+                                     <button type = "button" class = "login-btn position-relative">
+                                         Login
+                                     </button></a>
+                               </div>
+                             </div>
+                           </div>
+                         </div>
+                        {% endif %} -->
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+<!-- end of special products -->
+
+<!-- popular -->
+<section id="popular" class="py-5">
+  <div class="container">
+    <div class="title  pt-3 pb-5" style="text-align: center;">
+      <h2 class="position-relative d-inline-block ms-4">Popular Of This Year</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6 row g-3">
+        <h3 class="fs-5"><strong>Top Rated</strong></h3>
+        {% for product in top_products %}
+        <div class="d-flex align-items-start justify-content-start">
+          <a href="">
+            <img src="{% static 'images/notebook.png' %}" alt="" class="img-fluid pe-3 w-100"
+              style="max-width: 160px; height: 150px; object-fit: contain;">
+            <div>
+              <p class="mb-0">{{product.name}}</p>
+              <span>Rs. {{product.price}}</span>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="col-md-6 col-lg-6 row g-3">
+        <h3 class="fs-5"> <strong>Best Selling</strong></h3>
+        {% for product in best_selling_products %}
+        <div class="d-flex align-items-start justify-content-start">
+          <a href="">
+            <img src="{% static 'images/notebook.png' %}" alt="" class="img-fluid pe-3 w-100"
+              style="max-width: 160px; height: 150px; object-fit: contain;">
+            <div>
+              <p class="mb-0">{{product.name}}</p>
+              <span>Rs. {{product.price}}</span>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of popular -->
+
+<!-- newsletter -->
+<section id="newsletter" class="py-5">
+  <div class="container">
+    <div class="d-flex flex-column align-items-center justify-content-center">
+      <div class="title pt-3 pb-5" style="text-align: center;">
+        <h2 class="position-relative d-inline-block ms-4">Reach Out to Us</h2>
+      </div>
+      <div class="input-group mb-3 mt-3">
+        <input type="text" class="form-control" placeholder="Enter Your Email ...">
+        <button class="btn btn-primary" type="submit">Contact</button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end of newsletter -->
+
+{% endblock content %}

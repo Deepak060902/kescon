@@ -1,0 +1,87 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container cart-page"> 
+    <table>
+        <!-- Table header -->
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+        </tr>
+        <!-- Loop through cart items -->
+        {% for order_item in cart.items.all %}
+        <tr class="cart-item" data-item-id="{{ order_item.id }}">
+            <td>
+                <!-- Product info -->
+                <div class="cart-info">
+                    <img src="{{ order_item.product.image.url }}" alt="">
+                    <div>
+                        <p>{{ order_item.product.name }}</p>
+                        <small>Price: Rs. {{ order_item.product.price }}</small>
+                        <br>
+                        <a href="{% url 'remove_cart_item' order_item.id %}">Remove</a>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <!-- Quantity input -->
+                <div class="quantity-box">
+                    <button class="decrease">-</button>
+                    <input type="number" class="quantityInput" min="1" value="{{ order_item.quantity }}">
+                    <button class="increase">+</button>
+                </div>
+            </td>
+            <td>Rs. {{ order_item.get_total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="total-price">
+        <!-- Display total items and total price -->
+        <table>
+            <tr>
+                <td>Total Items</td>
+                <td>{{ cart.get_cart_items }}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>Rs. {{ cart.get_cart_total }}</td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <a href="">
+            <button class="cart-buy-btn">Order</button>
+        </a>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.quantity-box').on('click', '.increase, .decrease', function() {
+        var $button = $(this);
+        var oldValue = $button.siblings('.quantityInput').val();
+        var itemId = $button.closest('.cart-item').data('item-id');
+        var newValue = oldValue;
+
+        if ($button.hasClass('increase')) {
+            newValue = parseInt(oldValue) + 1;
+        } else {
+            newValue = parseInt(oldValue) - 1 > 0 ? parseInt(oldValue) - 1 : 1;
+        }
+
+        $button.siblings('.quantityInput').val(newValue);
+        $.ajax({
+            url: `/update/${itemId}/${newValue}/`,
+            method: 'GET',
+            success: function(response) {
+            },
+            error: function(xhr, status, error) {
+                console.error(status + ": " + error);
+            }
+        });
+    });
+});
+</script>
+{% endblock content %}

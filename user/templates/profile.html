@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid p-5 w-100">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="profile-header mb-4 p-3">
+                <h7>Hello,</h7>
+                <h5>Deepak Saroj</h5>
+            </div>
+            <div class="profile-header  sidebar">
+                <a href="#">Profile Information</a>
+                <a href="#">Manage Addresses</a>
+                <a href="#">Orders</a>
+                <form action='{% url "logout" %}'>
+                    <button>Logout</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="col-md-9">
+            <div class="profile-section">
+                <div class="form-section">
+                    <h6>Personal Information</h6>
+                    <form>
+                        <fieldset disabled>
+                            <div class="form-row row">
+                                <div class="form-group col-md-6">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" value="Deepak">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" value="Saroj">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" class="form-control" id="email" value="deepaksaroj42440@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="mobileNumber">Mobile Number</label>
+                                <input type="tel" class="form-control" id="mobileNumber" value="+919115738501">
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

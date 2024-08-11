@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="card p-5">
+  <!-- card left -->
+  <div class="product-imgs">
+    <div class="img-display">
+      <div class="img-showcase">
+        <img src="{{ product.image.url }}" alt="shoe image">
+        <!-- <img src = "shoes_images/shoe_2.jpg" alt = "shoe image">
+              <img src = "shoes_images/shoe_3.jpg" alt = "shoe image">
+              <img src = "shoes_images/shoe_4.jpg" alt = "shoe image"> -->
+      </div>
+    </div>
+    <!-- <div class = "img-select">
+            <div class = "img-item">
+              <a href = "#" data-id = "1">
+                <img src = "shoes_images/shoe_1.jpg" alt = "shoe image">
+              </a>
+            </div>
+            <div class = "img-item">
+              <a href = "#" data-id = "2">
+                <img src = "shoes_images/shoe_2.jpg" alt = "shoe image">
+              </a>
+            </div>
+            <div class = "img-item">
+              <a href = "#" data-id = "3">
+                <img src = "shoes_images/shoe_3.jpg" alt = "shoe image">
+              </a>
+            </div>
+            <div class = "img-item">
+              <a href = "#" data-id = "4">
+                <img src = "shoes_images/shoe_4.jpg" alt = "shoe image">
+              </a>
+            </div>
+          </div> -->
+  </div>
+  <!-- card right -->
+  <div class="product-content">
+    <h2 class="product-title">{{product.name}}</h2>
+    <div class="product-rating">
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star"></i>
+      <i class="fas fa-star-half-alt"></i>
+      <span>4.7(21)</span>
+    </div>
+
+    <div class="product-price">
+      <p class="new-price">Price: <span>Rs. {{product.price}}</span></p>
+    </div>
+    <div class="product-detail">
+      <h2>about this item: </h2>
+      <div>
+        {{ product.description|safe }}
+      </div>
+    </div>
+
+    <div class="quantity">
+      <h3 class="label">Quantity:</h3>
+      <div class="quantity-box">
+        <button class="decrease">-</button>
+        <input type="number" id="quantityInput" min="1" value="1">
+        <button class="increase">+</button>
+      </div>
+    </div>
+    <div class="purchase-info">
+      {% if product.stock_quantity != 0 %}
+      <div>
+        <a href="">
+          <button type="button" class="product-btn buy-btn">Buy it Now</button>
+        </a>
+      </div>
+      {% else %}
+      <div>
+        <button type="button" disabled class="product-btn stock-btn">Out Of Stock</button>
+      </div>
+      {% endif %}
+      <div>
+        
+          <div>
+            <form method="post" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="quantity" id="quantity" value="1">
+              {% if request.user.is_authenticated %}
+              <button type="submit" class="product-btn product-cart-btn" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop" class="btn btn-primary">Add to Cart</button>
+              {% else %}
+              <button type="reset" class="product-btn product-cart-btn" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop" class="btn btn-primary">Add to Cart</button>
+              <!-- Modal -->
+              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">Login</h5>
+                      <button type="button" class="btn-close text-primary" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      You are not signed in.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
+                      <a href="{% url 'login' %}" ><button type="button"style="color:white;" class="btn btn-outline-primary bg-primary">Login</button></a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </form>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- <script src="js/product_script.js"></script> -->
+
+<script>
+  const quantityInput = document.getElementById('quantityInput');
+  const quantityHiddenInput = document.getElementById('quantity');
+
+  const increaseBtn = document.querySelector('.increase');
+  const decreaseBtn = document.querySelector('.decrease');
+
+  increaseBtn.addEventListener('click', function () {
+    updateQuantity(parseInt(quantityInput.value) + 1);
+  });
+
+  decreaseBtn.addEventListener('click', function () {
+    if (parseInt(quantityInput.value) > 1) {
+      updateQuantity(parseInt(quantityInput.value) - 1);
+    }
+  });
+
+  quantityInput.addEventListener('input', function () {
+    updateQuantity(parseInt(quantityInput.value));
+  });
+
+  function updateQuantity(value) {
+    quantityInput.value = value;
+    quantityHiddenInput.value = value;
+  }
+
+  const imgs = document.querySelectorAll('.img-select a');
+  const imgBtns = [...imgs];
+  let imgId = 1;
+
+  imgBtns.forEach((imgItem) => {
+    imgItem.addEventListener('click', (event) => {
+      event.preventDefault();
+      imgId = imgItem.dataset.id;
+      slideImage();
+    });
+  });
+
+  function slideImage() {
+    const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
+    document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+  }
+
+  window.addEventListener('resize', slideImage);
+</script>
+
+{% endblock content %}
